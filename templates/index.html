@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <title>משחקי קדימה-צורן ופרו סוקר</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>לוח משחקים — קדימה-צורן ופרו סוקר</h1>
+    <div class="updated-row">
+      <span id="updated-at">טרם עודכן</span>
+      <button id="refresh-btn">עדכון נתונים מהתאחדות הכדורגל</button>
+      <span id="refresh-status"></span>
+    </div>
+  </header>
+
+  <section class="filters">
+    <label>מועדון
+      <select id="filter-club"><option value="">הכל</option></select>
+    </label>
+    <label>גיל / קבוצה
+      <select id="filter-age"><option value="">הכל</option></select>
+    </label>
+    <label>עונה
+      <select id="filter-season"><option value="">הכל</option></select>
+    </label>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="upcoming">משחקים קרובים</button>
+    <button class="tab-btn" data-tab="archive">ארכיון משחקים</button>
+  </nav>
+
+  <section id="tab-upcoming" class="tab-panel active">
+    <table>
+      <thead>
+        <tr><th>תאריך</th><th>שעה</th><th>מועדון</th><th>קבוצת גיל</th><th>בית</th><th>חוץ</th><th>עונה</th></tr>
+      </thead>
+      <tbody id="upcoming-body"></tbody>
+    </table>
+    <p class="empty-msg" id="upcoming-empty" hidden>אין משחקים קרובים תואמים לסינון.</p>
+  </section>
+
+  <section id="tab-archive" class="tab-panel">
+    <table>
+      <thead>
+        <tr><th>תאריך</th><th>שעה</th><th>מועדון</th><th>קבוצת גיל</th><th>בית</th><th>תוצאה</th><th>חוץ</th><th>עונה</th></tr>
+      </thead>
+      <tbody id="archive-body"></tbody>
+    </table>
+    <p class="empty-msg" id="archive-empty" hidden>אין משחקים בארכיון תואמים לסינון.</p>
+  </section>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

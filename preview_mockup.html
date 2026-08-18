@@ -1,0 +1,475 @@
+<title>מגרש</title>
+<style>
+  :root {
+    --bg: #f3f6f3;
+    --surface: #ffffff;
+    --surface-2: #eaf1ec;
+    --border: #d7e2da;
+    --text: #10201a;
+    --muted: #56685e;
+    --muted-2: #7c8d82;
+    --accent: #17864a;
+    --accent-ink: #ffffff;
+    --accent-soft: #e2f3e7;
+    --gold: #a06c0a;
+    --gold-soft: #faf1de;
+    --shadow: 0 1px 2px rgba(16, 32, 26, 0.06), 0 8px 24px -12px rgba(16, 32, 26, 0.18);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b1310;
+      --surface: #101c16;
+      --surface-2: #16241c;
+      --border: #223229;
+      --text: #eaf3ee;
+      --muted: #9ab3a4;
+      --muted-2: #7e9689;
+      --accent: #3ecf7a;
+      --accent-ink: #06180f;
+      --accent-soft: #16311f;
+      --gold: #e8b64a;
+      --gold-soft: #2c2413;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -14px rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #0b1310;
+    --surface: #101c16;
+    --surface-2: #16241c;
+    --border: #223229;
+    --text: #eaf3ee;
+    --muted: #9ab3a4;
+    --muted-2: #7e9689;
+    --accent: #3ecf7a;
+    --accent-ink: #06180f;
+    --accent-soft: #16311f;
+    --gold: #e8b64a;
+    --gold-soft: #2c2413;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -14px rgba(0, 0, 0, 0.6);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", "Arial Hebrew", Tahoma, Arial, sans-serif;
+    direction: rtl;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 28px 20px 80px;
+  }
+
+  .disclaimer {
+    background: var(--gold-soft);
+    border: 1px solid color-mix(in srgb, var(--gold) 35%, var(--border));
+    color: var(--text);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 22px;
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+  .disclaimer b { color: var(--gold); white-space: nowrap; }
+
+  header.scoreboard {
+    background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 22px;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand .mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 20px;
+    flex: none;
+  }
+
+  .brand h1 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: 0.01em;
+  }
+
+  .brand .clubs-line {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .updated {
+    font-size: 12px;
+    color: var(--muted-2);
+    text-align: left;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .refresh-btn {
+    margin-top: 6px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .filters select {
+    appearance: none;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 13px;
+    min-width: 150px;
+    cursor: pointer;
+  }
+  .filters select:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px;
+    width: fit-content;
+    margin: 0 0 18px;
+  }
+
+  .tab-btn {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    padding: 9px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+  }
+  .tab-btn.active {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  .tab-btn .count {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.75;
+    margin-inline-start: 4px;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .match-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .month-heading {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted-2);
+    margin: 22px 2px 4px;
+    font-weight: 700;
+  }
+  .month-heading:first-child { margin-top: 4px; }
+
+  .match-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 78px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    box-shadow: var(--shadow);
+  }
+
+  .match-card.is-live-soon {
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  }
+
+  .when {
+    text-align: center;
+    border-inline-end: 1px solid var(--border);
+    padding-inline-end: 14px;
+  }
+  .when .dow { font-size: 11px; color: var(--muted-2); text-transform: uppercase; letter-spacing: .04em; }
+  .when .dom { font-size: 22px; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .when .time { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; margin-top: 2px; }
+
+  .teams {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .team {
+    font-size: 14px;
+    font-weight: 600;
+    max-width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .team.us { color: var(--accent); }
+  .score {
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    font-size: 15px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 3px 10px;
+    flex: none;
+  }
+  .vs {
+    color: var(--muted-2);
+    font-size: 12px;
+    flex: none;
+  }
+
+  .tags {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .pill {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .pill.club-kz { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+  .pill.club-ps { background: var(--gold-soft); color: var(--gold); border-color: transparent; }
+
+  .empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 60px 20px;
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--muted-2);
+    font-size: 12px;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 560px) {
+    .match-card { grid-template-columns: 60px 1fr; }
+    .tags { grid-column: 1 / -1; flex-direction: row; justify-content: flex-start; margin-top: 6px; }
+    .team { max-width: 120px; }
+  }
+</style>
+
+<div class="wrap">
+  <div class="disclaimer">
+    <b>דוגמה בלבד —</b>
+    <span>זו הדמיה עם נתוני דוגמה כדי להראות איך המסך ייראה. אחרי שהסקרייפר ירוץ בהצלחה, אותו עיצוב יוצג עם המשחקים האמיתיים מאתר ההתאחדות.</span>
+  </div>
+
+  <header class="scoreboard">
+    <div class="brand-row">
+      <div class="brand">
+        <div class="mark">⚽</div>
+        <div>
+          <h1>לוח המשחקים</h1>
+          <p class="clubs-line">קדימה-צורן · פרו סוקר · כל הגילאים</p>
+        </div>
+      </div>
+      <div>
+        <div class="updated">עודכן לאחרונה: 18/08/2026, 09:14</div>
+        <button class="refresh-btn">↻ עדכון נתונים מהתאחדות</button>
+      </div>
+    </div>
+
+    <div class="filters">
+      <select aria-label="מועדון">
+        <option>כל המועדונים</option>
+        <option>קדימה-צורן</option>
+        <option>פרו סוקר</option>
+      </select>
+      <select aria-label="קבוצת גיל">
+        <option>כל הגילאים</option>
+        <option>ילדים ג</option>
+        <option>ילדים ב</option>
+        <option>נערים ב</option>
+        <option>נערים א</option>
+        <option>בוגרים</option>
+      </select>
+      <select aria-label="עונה">
+        <option>כל העונות</option>
+        <option>2026/2027</option>
+        <option>2025/2026</option>
+        <option>2024/2025</option>
+      </select>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="upcoming">משחקים קרובים <span class="count">9</span></button>
+    <button class="tab-btn" data-tab="archive">ארכיון <span class="count">9</span></button>
+  </nav>
+
+  <section id="tab-upcoming" class="tab-panel active">
+    <div class="match-list" id="list-upcoming"></div>
+  </section>
+
+  <section id="tab-archive" class="tab-panel">
+    <div class="match-list" id="list-archive"></div>
+  </section>
+
+  <footer>מגרש · נתוני דוגמה להמחשה בלבד</footer>
+</div>
+
+<script>
+  const DOW = ["א׳", "ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "שבת"];
+  const MONTHS = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
+
+  const upcoming = [
+    { date: "2026-08-22", time: "18:30", club: "kz", age: "ילדים ג", season: "2026/2027", home: "קדימה-צורן", away: "הפועל כפר סבא", us: "home" },
+    { date: "2026-08-23", time: "10:00", club: "ps", age: "ילדים ב", season: "2026/2027", home: "פרו סוקר", away: "מכבי הוד השרון", us: "home" },
+    { date: "2026-08-29", time: "17:00", club: "kz", age: "נערים א", season: "2026/2027", home: "עירוני תל מונד", away: "קדימה-צורן", us: "away" },
+    { date: "2026-09-05", time: "19:15", club: "ps", age: "נערים ב", season: "2026/2027", home: "פרו סוקר", away: "בית\"ר כפר יונה", us: "home" },
+    { date: "2026-09-06", time: "11:30", club: "kz", age: "ילדים ב", season: "2026/2027", home: "הפועל רעננה", away: "קדימה-צורן", us: "away" },
+    { date: "2026-09-12", time: "18:00", club: "kz", age: "בוגרים", season: "2026/2027", home: "קדימה-צורן", away: "מכבי נתניה", us: "home" },
+    { date: "2026-09-13", time: "09:30", club: "ps", age: "ילדים ג", season: "2026/2027", home: "עירוני כפר סבא", away: "פרו סוקר", us: "away" },
+    { date: "2026-09-19", time: "17:45", club: "kz", age: "נערים ב", season: "2026/2027", home: "קדימה-צורן", away: "הפועל תל מונד", us: "home" },
+    { date: "2026-10-03", time: "18:30", club: "ps", age: "נערים א", season: "2026/2027", home: "מכבי אבן יהודה", away: "פרו סוקר", us: "away" },
+  ];
+
+  const archive = [
+    { date: "2026-05-16", time: "17:30", club: "kz", age: "נערים א", season: "2025/2026", home: "קדימה-צורן", away: "הפועל כפר סבא", us: "home", score: [3, 1] },
+    { date: "2026-05-09", time: "18:00", club: "ps", age: "ילדים ג", season: "2025/2026", home: "מכבי הוד השרון", away: "פרו סוקר", us: "away", score: [0, 2] },
+    { date: "2026-04-25", time: "10:00", club: "kz", age: "ילדים ב", season: "2025/2026", home: "קדימה-צורן", away: "עירוני תל מונד", us: "home", score: [1, 1] },
+    { date: "2026-04-18", time: "19:00", club: "ps", age: "נערים ב", season: "2025/2026", home: "בית\"ר כפר יונה", away: "פרו סוקר", us: "away", score: [2, 2] },
+    { date: "2026-03-14", time: "18:15", club: "kz", age: "בוגרים", season: "2025/2026", home: "מכבי נתניה", away: "קדימה-צורן", us: "away", score: [4, 0] },
+    { date: "2025-12-06", time: "17:00", club: "kz", age: "נערים א", season: "2025/2026", home: "קדימה-צורן", away: "הפועל תל מונד", us: "home", score: [2, 0] },
+    { date: "2025-11-22", time: "10:30", club: "ps", age: "ילדים ב", season: "2025/2026", home: "פרו סוקר", away: "עירוני כפר סבא", us: "home", score: [3, 3] },
+    { date: "2025-05-24", time: "18:00", club: "kz", age: "נערים ב", season: "2024/2025", home: "הפועל רעננה", away: "קדימה-צורן", us: "away", score: [1, 2] },
+    { date: "2025-04-11", time: "17:30", club: "ps", age: "נערים א", season: "2024/2025", home: "פרו סוקר", away: "מכבי אבן יהודה", us: "home", score: [1, 0] },
+  ];
+
+  const CLUB_NAME = { kz: "קדימה-צורן", ps: "פרו סוקר" };
+  const CLUB_PILL = { kz: "club-kz", ps: "club-ps" };
+
+  function fmtWhen(dateStr) {
+    const d = new Date(dateStr + "T00:00:00");
+    return { dow: DOW[(d.getDay() + 6) % 7 === 6 ? 6 : d.getDay()], dom: d.getDate(), month: MONTHS[d.getMonth()], year: d.getFullYear() };
+  }
+
+  function renderCard(g, isArchive) {
+    const w = fmtWhen(g.date);
+    const homeIsUs = g.us === "home";
+    const homeClass = homeIsUs ? "team us" : "team";
+    const awayClass = homeIsUs ? "team" : "team us";
+    const middle = isArchive
+      ? `<span class="${homeClass}">${g.home}</span><span class="score">${g.score[0]} : ${g.score[1]}</span><span class="${awayClass}">${g.away}</span>`
+      : `<span class="${homeClass}">${g.home}</span><span class="vs">נגד</span><span class="${awayClass}">${g.away}</span>`;
+
+    return `<article class="match-card">
+      <div class="when">
+        <div class="dow">יום ${w.dow}</div>
+        <div class="dom">${String(w.dom).padStart(2, "0")}.${String(new Date(g.date).getMonth() + 1).padStart(2, "0")}</div>
+        <div class="time">${g.time}</div>
+      </div>
+      <div class="teams">${middle}</div>
+      <div class="tags">
+        <span class="pill ${CLUB_PILL[g.club]}">${CLUB_NAME[g.club]}</span>
+        <span class="pill">${g.age}</span>
+      </div>
+    </article>`;
+  }
+
+  function groupByMonth(list) {
+    const groups = [];
+    let lastKey = null;
+    for (const g of list) {
+      const w = fmtWhen(g.date);
+      const key = `${w.month} ${w.year}`;
+      if (key !== lastKey) {
+        groups.push({ key, items: [] });
+        lastKey = key;
+      }
+      groups[groups.length - 1].items.push(g);
+    }
+    return groups;
+  }
+
+  function render(listEl, data, isArchive) {
+    const groups = groupByMonth(data);
+    listEl.innerHTML = groups.map(gr =>
+      `<div class="month-heading">${gr.key}</div>` + gr.items.map(g => renderCard(g, isArchive)).join("")
+    ).join("");
+  }
+
+  render(document.getElementById("list-upcoming"), upcoming, false);
+  render(document.getElementById("list-archive"), archive, true);
+
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
+    });
+  });
+</script>
