@@ -24,7 +24,33 @@ jobs:
           python -m playwright install --with-deps chromium
 
       - name: Run scraper
-        run: python scraper.py
+        run: python scraper.py --debug
+
+      - name: Show debug dumps in the log
+        if: always()
+        run: |
+          echo "== HTTP status / page title probe =="
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as p:
+              browser = p.chromium.launch()
+              page = browser.new_page(locale="he-IL")
+              resp = page.goto("https://www.football.org.il/clubs/club/?club_id=4015&season_id=27", wait_until="networkidle", timeout=30000)
+              print("status:", resp.status if resp else None)
+              print("title:", page.title())
+              print("--- first 1500 chars of body text ---")
+              print(page.inner_text("body")[:1500])
+              browser.close()
+          PY
+          echo
+          echo "== data/debug files =="
+          ls -la data/debug/ || echo "(no debug dir)"
+          for f in data/debug/*.txt; do
+            [ -f "$f" ] || continue
+            echo "---- $f ($(wc -c < "$f") bytes) ----"
+            head -c 1200 "$f"
+            echo
+          done
 
       - name: Publish data for the static site
         run: cp data/games.json public/games.json
